@@ -1,22 +1,50 @@
 const express=require("express");
+const cookieParser = require("cookie-parser");
 const app=express();
 const path=require("path");
-//const db=require('./config/mongoose');
+
+const db=require('./config/mongoose');
+
+const session = require("express-session");
+const passport = require("passport");
+const passportLocal = require("./config/passport-local-strategy");
+
+const MongoStore = require("connect-mongo")(session);
+
 const port=9000;
 
 app.use(express.urlencoded());
+app.use(cookieParser());
 
-// setting up the template engine
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
 
+app.use(
+    session({
+      name: "quiz-time",
+      secret: "assignment",
+      saveUninitialized: false,
+      resave: false,
+      cookie: {
+        maxAge: 1000 * 60 * 100,
+      },
+      store: new MongoStore(
+        {
+          mongooseConnection: db,
+          autoRemove: "disabled",
+        },
+        function (err) {
+          console.log(err || "Connected to mongo db");
+        }
+      ),
+    })
+  );
+  
 
+app.use(passport.initialize());
+app.use(passport.session());
 
-// app.get('/',(req,res)=>{
-//     //res.send('<h1>Welcome to earth</h1>');
-//     return res.render('home',{title:'I am flying'});
-// });
-
+app.use(passport.setAuthenticatedUser);
 app.use('/',require('./routes/index'));
 
 app.listen(port,(err)=>{
@@ -26,3 +54,4 @@ app.listen(port,(err)=>{
     }
     console.log("server is up and running");
 });
+

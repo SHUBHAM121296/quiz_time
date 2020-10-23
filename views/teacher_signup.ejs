@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <h3><%= locals.title %></h3>
+        <h2>Welcome to Teacher from template</h2>
+<form action="/teacher/create" method="POST">
+    <input type="email" name="email" placeholder="Enter your Email" required />
+    <br><br>
+    <input type="text" name="name" placeholder="Enter your name" required />
+    <br><br>
+    <input type="password" name="password" placeholder="Password" required />
+    <br><br>
+    <input
+      type="password"
+      name="confirm_password"
+      placeholder="confirm your password"
+      required
+    />
+    <br><br>
+    <input type="radio" name="role" value="teacher" checked>Teacher
+    <br><br>
+    <input type="submit" value="Sign-In" />
+  </form>
+  </body>
+</html>

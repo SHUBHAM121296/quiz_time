@@ -5,5 +5,17 @@
     <body>
         <h3><%= locals.title %></h3>
         <h2>Welcome to Teacher from template</h2>
+        <form action="/teacher/sign-in" method="POST">
+            <input type="email" name="email" placeholder="Enter your Id" required />
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              required
+            />
+            <input type="submit" value="sign-In" />
+        </form>
+        <button type="button"><a href="/teacher/sign-up">SignUp</a></button>
+    </body>
     </body>
 </html>
